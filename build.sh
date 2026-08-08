@@ -26,10 +26,14 @@ vols=(
   "第十三卷_堤防上手放在手旁边"
 )
 
+# Corresponding HTML file numbers (must match vols array 1:1)
+vol_nums=("01" "02" "03" "04" "05" "06" "07" "08" "09" "10" "10b" "11" "12" "13")
+
 # Build volume pages
+total=${#vols[@]}
+last_i=$((total - 1))
 for i in "${!vols[@]}"; do
-  idx=$((i+1))
-  num=$(printf "%02d" $idx)
+  num="${vol_nums[$i]}"
   fname="${vols[$i]}"
   srcfile="${SRC}${SITE_TITLE}_${fname}.txt"
   dstfile="${DST}/vol-${num}.html"
@@ -39,8 +43,20 @@ for i in "${!vols[@]}"; do
   vtitle=$(echo "$fname" | cut -d_ -f2-)
 
   # Previous/Next links
-  if [ $idx -eq 1 ]; then prev_link=""; else prev_idx=$((idx-1)); prev_num=$(printf "%02d" $prev_idx); prev_link="<a href=\"vol-${prev_num}.html\">← 上一卷</a>"; fi
-  if [ $idx -eq 14 ]; then next_link=""; else next_idx=$((idx+1)); next_num=$(printf "%02d" $next_idx); next_link="<a href=\"vol-${next_num}.html\">下一卷 →</a>"; fi
+  if [ $i -eq 0 ]; then
+    prev_link=""
+  else
+    prev_i=$((i-1))
+    prev_num="${vol_nums[$prev_i]}"
+    prev_link="<a href=\"vol-${prev_num}.html\">← 上一卷</a>"
+  fi
+  if [ $i -eq $last_i ]; then
+    next_link=""
+  else
+    next_i=$((i+1))
+    next_num="${vol_nums[$next_i]}"
+    next_link="<a href=\"vol-${next_num}.html\">下一卷 →</a>"
+  fi
 
   cat > "$dstfile" <<HTMLEOF
 <!DOCTYPE html>
