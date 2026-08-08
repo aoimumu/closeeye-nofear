@@ -2,7 +2,7 @@
 # Build script: converts .txt volumes into HTML pages
 set -e
 
-SRC="../"
+SRC="./"
 DST="."
 CSS="style.css"
 SITE_TITLE="闭上眼睛的话就不害怕了"
@@ -20,6 +20,7 @@ vols=(
   "第八卷_接住全部或者不接"
   "第九卷_他说我不是好了是粘起来了"
   "第十卷_动摇的夜里姑母放了一杯热水"
+  "第十卷半_悬置"
   "第十一卷_旧报纸只有三行字"
   "第十二卷_他把线索递给她像交出一个自己"
   "第十三卷_堤防上手放在手旁边"
@@ -39,7 +40,7 @@ for i in "${!vols[@]}"; do
 
   # Previous/Next links
   if [ $idx -eq 1 ]; then prev_link=""; else prev_idx=$((idx-1)); prev_num=$(printf "%02d" $prev_idx); prev_link="<a href=\"vol-${prev_num}.html\">← 上一卷</a>"; fi
-  if [ $idx -eq 13 ]; then next_link=""; else next_idx=$((idx+1)); next_num=$(printf "%02d" $next_idx); next_link="<a href=\"vol-${next_num}.html\">下一卷 →</a>"; fi
+  if [ $idx -eq 14 ]; then next_link=""; else next_idx=$((idx+1)); next_num=$(printf "%02d" $next_idx); next_link="<a href=\"vol-${next_num}.html\">下一卷 →</a>"; fi
 
   cat > "$dstfile" <<HTMLEOF
 <!DOCTYPE html>
@@ -111,4 +112,4 @@ HTMLEOF
   echo "  Built vol-${num}.html"
 done
 
-echo "Done! All 13 volumes generated."
+echo "Done! All 14 volumes generated."
